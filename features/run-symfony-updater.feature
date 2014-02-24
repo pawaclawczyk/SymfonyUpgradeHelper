@@ -6,3 +6,7 @@ Feature: Developer runs symfony updater
   Scenario: Running symfony updater
     When I run symfony-updater
     Then I should see "Symfony Updater"
+
+  Scenario: Running update command
+    When I run symfony-updater "update" command
+    Then I should see "Update"

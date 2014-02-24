@@ -2,6 +2,7 @@
 
 use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Output\StreamOutput;
+use Symfony\Component\Console\Input\StringInput;
 
 class ApplicationTester
 {
@@ -14,10 +15,10 @@ class ApplicationTester
         $this->application = $application;
     }
 
-    public function run()
+    public function run($command)
     {
         $this->output = new StreamOutput(fopen('php://memory', 'w', false));
-        $input = null;
+        $input = new StringInput($command);
 
         return $this->application->run($input, $this->output);
     }

@@ -3,6 +3,7 @@
 namespace SymfonyUpdater\Console;
 
 use Symfony\Component\Console\Application as BaseApplication;
+use SymfonyUpdater\Console\Command\UpdateCommand;
 
 class Application extends BaseApplication
 {
@@ -13,5 +14,7 @@ class Application extends BaseApplication
     public function __construct()
     {
         parent::__construct(self::NAME, self::VERSION);
+
+        $this->add(new UpdateCommand());
     }
 }

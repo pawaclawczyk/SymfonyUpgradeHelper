@@ -23,15 +23,15 @@ class FeatureContext implements TurnipAcceptingContext
     }
 
     /**
-     * @When I run symfony-updater
+     * @When /^I run symfony-updater( "(?P<command>[^"]*)" command){0,1}$/
      */
-    public function iRunSymfonyUpdater()
+    public function iRunSymfonyUpdater($command = '')
     {
         $application = new Application();
         $application->setAutoExit(false);
 
         $this->applicationTester = new ApplicationTester($application);
-        $this->applicationTester->run();
+        $this->applicationTester->run($command);
     }
 
     /**
