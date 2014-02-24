@@ -15,5 +15,10 @@
     "require-dev": {
         "phpspec/phpspec": "2.0.*@rc",
         "behat/behat": "3.0.*@rc"
+    },
+    "autoload": {
+        "psr-0": {
+            "SymfonyUpdater": "src/"
+        }
     }
 }

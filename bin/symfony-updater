@@ -1,0 +1,14 @@
+#!/usr/bin/env php
+
+<?php
+
+if (file_exists($autoload = __DIR__ . '/../vendor/autoload.php')) {
+    require_once $autoload;
+} else {
+    printf("Please run composer update.");
+}
+
+use SymfonyUpdater\Console\Application;
+
+$app = new Application();
+$app->run();
