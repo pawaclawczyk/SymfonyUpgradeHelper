@@ -1,0 +1,19 @@
+{
+    "name": "pwc/symfony-updater",
+    "description": "Symfony updater.",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Paweł Wacławczyk",
+            "email": "p.a.waclawczyk@gmail.com"
+        }
+    ],
+    "minimum-stability": "stable",
+    "require": {
+        "symfony/console": "*"
+    },
+    "require-dev": {
+        "phpspec/phpspec": "2.0.*@rc",
+        "behat/behat": "3.0.*@rc"
+    }
+}
