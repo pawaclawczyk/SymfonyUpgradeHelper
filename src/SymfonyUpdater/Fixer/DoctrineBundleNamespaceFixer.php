@@ -10,4 +10,9 @@ class DoctrineBundleNamespaceFixer implements Fixer
     {
         return preg_replace('/(Symfony\\\Bundle\\\DoctrineBundle\\\DoctrineBundle)/', 'Doctrine\Bundle\DoctrineBundle\DoctrineBundle', $content);
     }
+
+    public function getName()
+    {
+        return 'doctrine_bundle_namespace';
+    }
 }

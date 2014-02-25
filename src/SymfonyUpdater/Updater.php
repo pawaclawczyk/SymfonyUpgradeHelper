@@ -3,42 +3,66 @@
 namespace SymfonyUpdater;
 
 use Symfony\Component\Finder\Finder;
+use SymfonyUpdater\Util\Filesystem;
 
 class Updater
 {
-    private $updatedFiles = [];
+    /**
+     * @var Filesystem
+     */
+    private $filesystem;
 
+    /**
+     * @var []
+     */
+    private $stats = [];
+
+    /**
+     * @var Fixer[]
+     */
     private $fixers = [];
+
+    public function __construct(Filesystem $filesystem)
+    {
+        $this->filesystem = $filesystem;
+    }
 
     public function update(Finder $finder)
     {
-        foreach ($finder as $file) {
-            if ($file instanceof \SplFileInfo) {
-                $content = file_get_contents($file->getRealPath());
+        foreach ($finder as $fileInfo) {
+            if (! $fileInfo->isFile() || ! $fileInfo->isReadable()) {
+                continue;
+            };
 
-                foreach ($this->fixers as $fixer) {
-                    $content = $fixer->fix($file, $content);
+            $originalContent = $content = $this->filesystem->read($fileInfo->getRealPath());
+
+            foreach ($this->fixers as $fixer) {
+                $oldContent = $content;
+
+                try {
+                    $content = $fixer->fix($fileInfo, $content);
+                } catch (RequireManualFix $e) {
+                    $this->stats[$fileInfo->getRealPath()]['manual'][] = $fixer->getName();
                 }
 
-                file_put_contents($file->getRealPath(), $content);
+                if ($oldContent !== $content) {
+                    $this->stats[$fileInfo->getRealPath()]['applied'][] = $fixer->getName();
+                }
+            }
 
-                $this->updatedFiles[] = $file->getRealPath();
+            if ($originalContent !== $content) {
+                $this->filesystem->write($fileInfo->getRealPath(), $content);
             }
         }
     }
 
-    public function getUpdatedFiles()
+    public function getStats()
     {
-        return $this->updatedFiles;
+        return $this->stats;
     }
 
     public function addFixer(Fixer $fixer)
     {
         $this->fixers[] = $fixer;
-    }
-
-    public function getFixers()
-    {
-        return $this->fixers;
     }
 }

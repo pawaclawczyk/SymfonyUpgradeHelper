@@ -8,6 +8,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Finder\Finder;
 use SymfonyUpdater\Updater;
+use SymfonyUpdater\Util\Filesystem;
 
 class UpdateCommand extends Command
 {
@@ -17,7 +18,7 @@ class UpdateCommand extends Command
     {
         parent::__construct();
 
-        $this->updater = new Updater();
+        $this->updater = new Updater(new Filesystem());
     }
 
     protected function configure()
@@ -33,13 +34,29 @@ class UpdateCommand extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
+        $output->writeln('Updating...');
+
         $finder = Finder::create();
         $finder->files()->in($input->getArgument('dir'));
 
         $this->updater->update($finder);
 
-        foreach ($this->updater->getUpdatedFiles() as $filename) {
-            $output->writeln('Updated '.$filename);
+        foreach ($this->updater->getStats() as $file => $stats) {
+            $output->writeln('File \''.$file.'\'');
+
+            if (isset($stats['applied'])) {
+                $output->writeln('Fixers applied:');
+                foreach ($stats['applied'] as $fixer) {
+                    $output->writeln('  - '.$fixer);
+                }
+            }
+
+            if (isset($stats['manual'])) {
+                $output->writeln('Require manual fix:');
+                foreach ($stats['manual'] as $fixer) {
+                    $output->writeln('  - '.$fixer);
+                }
+            }
         }
     }
 
