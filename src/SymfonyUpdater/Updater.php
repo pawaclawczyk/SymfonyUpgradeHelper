@@ -14,6 +14,14 @@ class Updater
     {
         foreach ($finder as $file) {
             if ($file instanceof \SplFileInfo) {
+                $content = file_get_contents($file->getRealPath());
+
+                foreach ($this->fixers as $fixer) {
+                    $content = $fixer->fix($file, $content);
+                }
+
+                file_put_contents($file->getRealPath(), $content);
+
                 $this->updatedFiles[] = $file->getRealPath();
             }
         }

@@ -70,4 +70,14 @@ class FeatureContext implements TurnipAcceptingContext
 
         file_put_contents($file, $string->getRaw());
     }
+
+    /**
+     * @Then /^the class file "(?P<file>[^"]+)" should contain:$/
+     */
+    public function theClassFileShouldContain($content, PyStringNode $string)
+    {
+        if (file_get_contents($this->workDir.$content) !== $string->getRaw()) {
+            throw new RuntimeException('File content is diffrent than expected.');
+        }
+    }
 }
