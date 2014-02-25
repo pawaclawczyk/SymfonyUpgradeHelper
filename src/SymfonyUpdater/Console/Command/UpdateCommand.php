@@ -26,6 +26,11 @@ class UpdateCommand extends Command
              ->addArgument('dir', InputArgument::REQUIRED, 'The path');
     }
 
+    protected function initialize(InputInterface $input, OutputInterface $output)
+    {
+        $this->registerBuiltInFixers($this->updater);
+    }
+
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $finder = Finder::create();
@@ -35,6 +40,14 @@ class UpdateCommand extends Command
 
         foreach ($this->updater->getUpdatedFiles() as $filename) {
             $output->writeln('Updated '.$filename);
+        }
+    }
+
+    private function registerBuiltInFixers(Updater $updater)
+    {
+        foreach (Finder::create()->files()->in(__DIR__.'/../../Fixer') as $file) {
+            $class = 'SymfonyUpdater\\Fixer\\'.basename($file, '.php');
+            $updater->addFixer(new $class());
         }
     }
 }

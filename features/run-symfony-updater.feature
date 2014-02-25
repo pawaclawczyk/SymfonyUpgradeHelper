@@ -18,4 +18,4 @@ Feature: Developer runs symfony updater
     }
     """
     When I run symfony-updater "update" command for dir "."
-    Then I should see "Updated A.php"
+    Then I should see "A.php"
