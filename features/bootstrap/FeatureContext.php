@@ -53,12 +53,12 @@ class FeatureContext implements TurnipAcceptingContext
         $match = preg_match('/'.preg_quote($text).'/sm', $this->applicationTester->getDisplay());
 
         if (1 !== $match) {
-            throw new RuntimeException('I should see: ' . $text);
+            throw new RuntimeException('I should see: '.$text);
         }
     }
 
     /**
-     * @Given /^the class file "(?P<file>[^"]+)" contains:$/
+     * @Given /^the (?:|class )file "(?P<file>[^"]+)" contains:$/
      */
     public function theClassFileContains($file, PyStringNode $string)
     {

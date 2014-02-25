@@ -37,3 +37,14 @@ Feature: Developer upgrade Symfony from 2.0 to 2.1
           }
       }
       """
+
+    Scenario: Notify about session configuration
+      Given the file "app/config/config.yml" contains:
+        """
+        framework:
+            session:
+                default_locale: fr
+        """
+      When I run symfony-updater "update" command for dir "."
+      Then I should see "Require manual fix"
+      And I should see "config.yml"
