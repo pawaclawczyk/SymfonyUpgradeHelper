@@ -2,36 +2,47 @@
 
 use Behat\Behat\Context\TurnipAcceptingContext;
 use SymfonyUpdater\Console\Application;
+use Behat\Gherkin\Node\PyStringNode;
 
 /**
  * Behat context class.
  */
 class FeatureContext implements TurnipAcceptingContext
 {
+    private $workDir;
     /**
      * @var ApplicationTester
      */
     private $applicationTester;
 
     /**
-     * Initializes context. Every scenario gets it's own context object.
-     *
-     * @param array $parameters Suite parameters (set them up through behat.yml)
+     * @BeforeScenario
      */
-    public function __construct(array $parameters)
+    public function createWorkDir()
     {
+        $this->workDir = sys_get_temp_dir().'/'.uniqid('SymfonyUpdate').'/';
+        mkdir($this->workDir, 0777, true);
+        chdir($this->workDir);
     }
 
     /**
-     * @When /^I run symfony-updater( "(?P<command>[^"]*)" command){0,1}$/
+     * @AfterScenario
      */
-    public function iRunSymfonyUpdater($command = '')
+    public function removeWorkDir()
+    {
+        system('rm -rf '.$this->workDir);
+    }
+
+    /**
+     * @When /^I run symfony-updater( "(?P<command>[^"]*)" command for dir "(?P<dir>[^"])"){0,1}$/
+     */
+    public function iRunSymfonyUpdater($command = '', $dir = null)
     {
         $application = new Application();
         $application->setAutoExit(false);
 
         $this->applicationTester = new ApplicationTester($application);
-        $this->applicationTester->run($command);
+        $this->applicationTester->run($command, $dir);
     }
 
     /**
@@ -44,5 +55,19 @@ class FeatureContext implements TurnipAcceptingContext
         if (1 !== $match) {
             throw new RuntimeException('I should see: ' . $text);
         }
+    }
+
+    /**
+     * @Given /^the class file "(?P<file>[^"]+)" contains:$/
+     */
+    public function theClassFileContains($file, PyStringNode $string)
+    {
+        $dir = dirname($file);
+
+        if (!file_exists($dir)) {
+            mkdir($dir,0777, true);
+        }
+
+        file_put_contents($file, $string->getRaw());
     }
 }

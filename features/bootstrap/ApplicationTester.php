@@ -15,9 +15,14 @@ class ApplicationTester
         $this->application = $application;
     }
 
-    public function run($command)
+    public function run($command, $dir)
     {
         $this->output = new StreamOutput(fopen('php://memory', 'w', false));
+
+        if (null !== $dir) {
+            $command .= ' '.$dir;
+        }
+
         $input = new StringInput($command);
 
         return $this->application->run($input, $this->output);

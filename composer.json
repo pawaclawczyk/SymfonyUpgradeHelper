@@ -10,7 +10,8 @@
     ],
     "minimum-stability": "stable",
     "require": {
-        "symfony/console": "*"
+        "symfony/console": "*",
+        "symfony/finder": "*"
     },
     "require-dev": {
         "phpspec/phpspec": "2.0.*@rc",

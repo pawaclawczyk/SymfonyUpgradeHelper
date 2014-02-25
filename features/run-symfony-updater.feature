@@ -8,5 +8,14 @@ Feature: Developer runs symfony updater
     Then I should see "Symfony Updater"
 
   Scenario: Running update command
-    When I run symfony-updater "update" command
-    Then I should see "Update"
+    Given the class file "A.php" contains:
+    """
+    <?php
+
+    class A
+    {
+
+    }
+    """
+    When I run symfony-updater "update" command for dir "."
+    Then I should see "Updated A.php"
