@@ -72,7 +72,7 @@ class FeatureContext implements TurnipAcceptingContext
     }
 
     /**
-     * @Then /^the class file "(?P<file>[^"]+)" should contain:$/
+     * @Then /^the (?:|class )file "(?P<file>[^"]+)" should contain:$/
      */
     public function theClassFileShouldContain($content, PyStringNode $string)
     {
