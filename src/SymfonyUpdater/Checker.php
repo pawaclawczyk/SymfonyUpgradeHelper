@@ -11,7 +11,7 @@ interface Checker
     /**
      * @param  \SplFileInfo $file
      * @param $content
-     * @return []
+     * @return array|null
      */
     public function check(\SplFileInfo $file, $content);
 
