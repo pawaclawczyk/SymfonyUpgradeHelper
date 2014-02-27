@@ -47,7 +47,7 @@ class SessionLocalePhpFixer implements Fixer
             $this->logger->log(new UpdateLog($this, $file, UpdateLog::LEVEL_TO_MANUAL_VERIFICATION, $match));
         }
 
-       return preg_replace($pattern, '', $content);
+       return $content;
     }
 
     /**

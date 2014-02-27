@@ -27,7 +27,7 @@ class SessionLocalePhpFixerSpec extends ObjectBehavior
 
     public function it_logs_fixing(UpdateLogger $logger, \SplFileInfo $fileInfo)
     {
-        $logger->log(Argument::type('SymfonyUpdater\UpdateLog'))->shouldBeCalled();
+        $logger->log(Argument::type('SymfonyUpdater\UpdateLog'))->shouldBeCalledTimes(2);
 
         $content =<<<YML
 \$session->getLocale();
@@ -37,15 +37,15 @@ YML;
         $this->fix($fileInfo, $content);
     }
 
-    public function it_returns_content_with_removed_match(\SplFileInfo $file)
+    public function it_returns_unmodified_content(\SplFileInfo $file)
     {
         $content =<<<PHP
 \$session->getLocale();
 \$request->getLocale();
 PHP;
         $expected =<<<PHP
-;
-;
+\$session->getLocale();
+\$request->getLocale();
 PHP;
 
         $this->fix($file, $content)->shouldReturn($expected);

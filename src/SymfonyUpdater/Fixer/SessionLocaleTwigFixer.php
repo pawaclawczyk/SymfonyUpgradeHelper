@@ -1,13 +1,15 @@
 <?php
 
-namespace SymfonyUpdater\Checker;
+namespace SymfonyUpdater\Fixer;
 
+use SebastianBergmann\Diff\Differ;
 use SymfonyUpdater\Fixer;
 use SymfonyUpdater\UpdateLog;
 use SymfonyUpdater\UpdateLogger;
 
 class SessionLocaleTwigFixer implements Fixer
 {
+    private $differ;
     /**
      * @var UpdateLogger
      */
@@ -19,6 +21,7 @@ class SessionLocaleTwigFixer implements Fixer
     public function __construct(UpdateLogger $logger)
     {
         $this->logger = $logger;
+        $this->differ = new Differ();
     }
 
     /**
@@ -26,16 +29,27 @@ class SessionLocaleTwigFixer implements Fixer
      */
     public function fix(\SplFileInfo $file, $content)
     {
-        $pattern = '/{(%|({))[^%]+app\.(request\.)?session\.locale[^%]+(?(2)}|%)}/';
-        $matches = [];
+        $fixPattern = '/({(%|({))[^%]+app\.)(request\.)?session(\.locale[^%]+(?(3)}|%)})/';
+        $replacement = '\\1request\\5';
 
-        preg_match_all($pattern, $content, $matches);
+        $fixedContent = preg_replace($fixPattern, $replacement, $content);
 
-        foreach ($matches[0] as $match) {
-            $this->logger->log(new UpdateLog($this, $file, UpdateLog::LEVEL_TO_MANUAL_FIX, $match));
+        if (md5($content) !== md5($fixedContent)) {
+            $diff = $this->differ->diff($content, $fixedContent);
+            $this->logger->log(new UpdateLog($this, $file, UpdateLog::LEVEL_FIXED, $diff));
         }
 
-        return preg_replace($pattern, '', $content);
+        $matches = [];
+
+        $matchPattern = '/{(%|({))[^%}]+(?<!app\.request)\.locale()[^%}]+((?(2)}|%))}/';
+
+        preg_match_all($matchPattern, $fixedContent, $matches);
+
+        foreach ($matches[0] as $match) {
+            $this->logger->log(new UpdateLog($this, $file, UpdateLog::LEVEL_TO_MANUAL_VERIFICATION, $match));
+        }
+
+        return $fixedContent;
     }
 
     /**

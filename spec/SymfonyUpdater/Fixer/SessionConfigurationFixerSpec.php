@@ -32,6 +32,23 @@ class SessionConfigurationFixerSpec extends ObjectBehavior
         $this->support($fileInfo)->shouldReturn(false);
     }
 
+    public function it_returns_content_unmodified_content(\SplFileInfo $fileInfo)
+    {
+        $content =<<<YML
+framework:
+    session:
+        default_locale: fr
+YML;
+
+        $expected =<<<YML
+framework:
+    session:
+        default_locale: fr
+YML;
+
+        $this->fix($fileInfo, $content)->shouldReturn($expected);
+    }
+
     public function it_logs_fixing(UpdateLogger $logger, \SplFileInfo $fileInfo)
     {
         $logger->log(Argument::type('SymfonyUpdater\UpdateLog'))->shouldBeCalled();
@@ -45,21 +62,6 @@ YML;
         $this->fix($fileInfo, $content);
     }
 
-    public function it_returns_content_with_removed_match(\SplFileInfo $fileInfo)
-    {
-        $content =<<<YML
-framework:
-    session:
-        default_locale: fr
-YML;
-        $expected =<<<YML
-framework:
-    session:
-YML;
-
-        $this->fix($fileInfo, $content)->shouldReturn($expected);
-    }
-
     public function it_does_not_log_fixing(UpdateLogger $logger, \SplFileInfo $fileInfo)
     {
         $logger->log(Argument::type('SymfonyUpdater\UpdateLog'))->shouldNotBeCalled();
@@ -70,15 +72,5 @@ key:
 YML;
 
         $this->fix($fileInfo, $content);
-    }
-
-    public function it_returns_unmodified_content(\SplFileInfo $fileInfo)
-    {
-        $content =<<<YML
-key:
-    subKey: value
-YML;
-
-        $this->fix($fileInfo, $content)->shouldReturn($content);
     }
 }
