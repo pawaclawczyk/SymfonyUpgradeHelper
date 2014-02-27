@@ -10,7 +10,7 @@ class DoctrineBundleNamespaceFixerSpec extends ObjectBehavior
 {
     public function let(UpdateInfoCollector $collector)
     {
-        $this->beConstructedWith($collector);
+        $this->setCollector($collector);
     }
 
     public function it_is_a_fixer()

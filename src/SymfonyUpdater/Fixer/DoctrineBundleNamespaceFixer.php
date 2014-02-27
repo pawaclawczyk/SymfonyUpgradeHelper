@@ -9,14 +9,27 @@ use SymfonyUpdater\UpdateInfoCollector;
 
 class DoctrineBundleNamespaceFixer implements Fixer
 {
+    /**
+     * @var UpdateInfoCollector
+     */
     private $collector;
 
+    /**
+     * @var Differ
+     */
     private $differ;
 
-    public function __construct(UpdateInfoCollector $collector)
+    public function __construct()
+    {
+        $this->differ = new Differ();
+    }
+
+    /**
+     * @param UpdateInfoCollector $collector
+     */
+    public function setCollector(UpdateInfoCollector $collector)
     {
         $this->collector = $collector;
-        $this->differ = new Differ();
     }
 
     /**

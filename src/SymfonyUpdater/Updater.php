@@ -29,6 +29,12 @@ class Updater
 
     public function update(Finder $finder)
     {
+        $collector = new UpdateInfoCollector();
+
+        foreach ($this->fixers as $fixer) {
+            $fixer->setCollector($collector);
+        }
+
         foreach ($finder as $fileInfo) {
             $fixedContent = $content = $this->filesystem->read($fileInfo->getRealPath());
 
@@ -40,6 +46,8 @@ class Updater
                 $this->filesystem->write($fileInfo->getRealPath(), $fixedContent);
             }
         }
+
+        return $collector;
     }
 
     public function getStats()

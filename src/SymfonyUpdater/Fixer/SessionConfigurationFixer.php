@@ -16,7 +16,7 @@ class SessionConfigurationFixer implements Fixer
     /**
      * @param UpdateInfoCollector $collector
      */
-    public function __construct(UpdateInfoCollector $collector)
+    public function setCollector(UpdateInfoCollector $collector)
     {
         $this->collector = $collector;
     }

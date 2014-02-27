@@ -22,6 +22,9 @@ class UpdaterSpec extends ObjectBehavior
         $finder->getIterator()->willReturn($iterator);
         $filesystem->read(Argument::cetera())->willReturn('File content');
 
+        $fixerFoo->setCollector(Argument::cetera())->willReturn();
+        $fixerBar->setCollector(Argument::cetera())->willReturn();
+
         $this->addFixer($fixerFoo);
         $this->addFixer($fixerBar);
 
@@ -39,6 +42,9 @@ class UpdaterSpec extends ObjectBehavior
         $finder->getIterator()->willReturn($iterator);
         $filesystem->read(Argument::cetera())->willReturn('File content');
 
+        $fixerFoo->setCollector(Argument::cetera())->willReturn();
+        $fixerBar->setCollector(Argument::cetera())->willReturn();
+
         $this->addFixer($fixerFoo);
         $this->addFixer($fixerBar);
 
@@ -48,5 +54,19 @@ class UpdaterSpec extends ObjectBehavior
         $filesystem->write(Argument::cetera())->shouldNotBeCalled();
 
         $this->update($finder);
+    }
+
+    public function it_collect_info_from_fixers(Finder $finder, Fixer $fixer)
+    {
+        $iterator = new Iterator(['/path/to/file']);
+        $finder->getIterator()->willReturn($iterator);
+
+        $fixer->fix(Argument::cetera())->willreturn();
+
+        $fixer->setCollector(Argument::type('SymfonyUpdater\UpdateInfoCollector'))->shouldBeCalled();
+
+        $this->addFixer($fixer);
+
+        $this->update($finder)->shouldHaveType('SymfonyUpdater\UpdateInfoCollector');
     }
 }

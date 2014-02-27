@@ -5,6 +5,11 @@ namespace SymfonyUpdater;
 interface Fixer
 {
     /**
+     * @param UpdateInfoCollector $collector
+     */
+    public function setCollector(UpdateInfoCollector $collector);
+
+    /**
      * @param  \SplFileInfo $file
      * @return bool
      */
