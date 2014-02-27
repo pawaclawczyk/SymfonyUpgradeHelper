@@ -1,13 +1,12 @@
 <?php
 
-namespace SymfonyUpdater\Checker;
+namespace SymfonyUpdater\Fixer;
 
-use SymfonyUpdater\Checker;
 use SymfonyUpdater\Fixer;
 use SymfonyUpdater\UpdateLog;
 use SymfonyUpdater\UpdateLogger;
 
-class SessionLocalePhpChecker implements Checker, Fixer
+class SessionConfigurationFixer implements Fixer
 {
     /**
      * @var UpdateLogger
@@ -23,12 +22,11 @@ class SessionLocalePhpChecker implements Checker, Fixer
     }
 
     /**
-     * @param  \SplFileInfo $file
-     * @return bool
+     * {@inheritdoc}
      */
     public function support(\SplFileInfo $file)
     {
-        if ($file->getExtension() === 'php') {
+        if ($file->getExtension() === 'yml') {
             return true;
         }
 
@@ -36,14 +34,13 @@ class SessionLocalePhpChecker implements Checker, Fixer
     }
 
     /**
-     * @param  \SplFileInfo     $file
-     * @param $content
-     * @return array|mixed|null
+     * {@inheritdoc}
      */
-    public function check(\SplFileInfo $file, $content)
+    public function fix(\SplFileInfo $file, $content)
     {
-        $pattern = '/\$[\w\s>:-]+->getLocale\(\)/';
         $matches = [];
+
+        $pattern = '/\s*default_locale\s*:\s*(?<locale>\w+)/';
 
         preg_match_all($pattern, $content, $matches);
 
@@ -51,15 +48,14 @@ class SessionLocalePhpChecker implements Checker, Fixer
             $this->logger->log(new UpdateLog($this, $file, UpdateLog::LEVEL_TO_MANUAL_VERIFICATION, $match));
         }
 
-       return preg_replace($pattern, '', $content);
+        return preg_replace($pattern, '', $content);
     }
 
-    public function fix(\SplFileInfo $file, $content)
-    {
-    }
-
+    /**
+     * {@inheritdoc}
+     */
     public function getName()
     {
-        return 'session_locale_php_fixer';
+        return 'session_configuration_fixer';
     }
 }

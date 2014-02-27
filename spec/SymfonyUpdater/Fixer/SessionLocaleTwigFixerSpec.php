@@ -3,20 +3,19 @@
 namespace spec\SymfonyUpdater\Checker;
 
 use PhpSpec\ObjectBehavior;
-use Prophecy\Argument;
-use SymfonyUpdater\Checker;
+use Prophecy\Argument;;
 use SymfonyUpdater\UpdateLogger;
 
-class SessionLocaleTwigCheckerSpec extends ObjectBehavior
+class SessionLocaleTwigFixerSpec extends ObjectBehavior
 {
     public function let(UpdateLogger $logger)
     {
         $this->beConstructedWith($logger);
     }
 
-    public function it_is_checker()
+    public function it_is_a_fixer()
     {
-        $this->shouldHaveType('SymfonyUpdater\Checker');
+        $this->shouldHaveType('SymfonyUpdater\Fixer');
     }
 
     public function it_supports_twig_file(\SplFileInfo $file)
@@ -37,7 +36,7 @@ class SessionLocaleTwigCheckerSpec extends ObjectBehavior
 <div>{{ app.session.locale|trans }}</div>
 TWIG;
 
-        $this->check($fileInfo, $content);
+        $this->fix($fileInfo, $content);
     }
 
     public function it_returns_content_with_removed_match(\SplFileInfo $file)
@@ -55,6 +54,6 @@ TWIG;
 <div></div>
 PHP;
 
-        $this->check($file, $content)->shouldReturn($expected);
+        $this->fix($file, $content)->shouldReturn($expected);
     }
 }

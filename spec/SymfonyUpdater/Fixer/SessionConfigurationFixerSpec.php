@@ -1,22 +1,21 @@
 <?php
 
-namespace spec\SymfonyUpdater\Checker;
+namespace spec\SymfonyUpdater\Fixer;
 
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
-use SymfonyUpdater\Checker;
 use SymfonyUpdater\UpdateLogger;
 
-class SessionConfigurationCheckerSpec extends ObjectBehavior
+class SessionConfigurationFixerSpec extends ObjectBehavior
 {
     public function let(UpdateLogger $logger)
     {
         $this->beConstructedWith($logger);
     }
 
-    public function it_is_a_checker()
+    public function it_is_a_fixer()
     {
-        $this->shouldHaveType('SymfonyUpdater\Checker');
+        $this->shouldHaveType('SymfonyUpdater\Fixer');
     }
 
     public function it_supports_yml_file(\SplFileInfo $fileInfo)
@@ -43,7 +42,7 @@ framework:
         default_locale: fr
 YML;
 
-        $this->check($fileInfo, $content);
+        $this->fix($fileInfo, $content);
     }
 
     public function it_returns_content_with_removed_match(\SplFileInfo $fileInfo)
@@ -58,7 +57,7 @@ framework:
     session:
 YML;
 
-        $this->check($fileInfo, $content)->shouldReturn($expected);
+        $this->fix($fileInfo, $content)->shouldReturn($expected);
     }
 
     public function it_does_not_log_fixing(UpdateLogger $logger, \SplFileInfo $fileInfo)
@@ -70,7 +69,7 @@ key:
     subKey: value
 YML;
 
-        $this->check($fileInfo, $content);
+        $this->fix($fileInfo, $content);
     }
 
     public function it_returns_unmodified_content(\SplFileInfo $fileInfo)
@@ -80,6 +79,6 @@ key:
     subKey: value
 YML;
 
-        $this->check($fileInfo, $content)->shouldReturn($content);
+        $this->fix($fileInfo, $content)->shouldReturn($content);
     }
 }

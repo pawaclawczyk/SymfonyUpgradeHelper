@@ -11,7 +11,8 @@
     "minimum-stability": "stable",
     "require": {
         "symfony/console": "*",
-        "symfony/finder": "*"
+        "symfony/finder": "*",
+        "sebastian/diff": "dev-master"
     },
     "require-dev": {
         "phpspec/phpspec": "2.0.*@rc",

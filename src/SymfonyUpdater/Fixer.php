@@ -6,6 +6,12 @@ interface Fixer
 {
     /**
      * @param  \SplFileInfo $file
+     * @return bool
+     */
+    public function support(\SplFileInfo $file);
+
+    /**
+     * @param  \SplFileInfo $file
      * @param $content
      * @return string
      */

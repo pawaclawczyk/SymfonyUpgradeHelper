@@ -1,22 +1,21 @@
 <?php
 
-namespace spec\SymfonyUpdater\Checker;
+namespace spec\SymfonyUpdater\Fixer;
 
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
-use SymfonyUpdater\Checker;
 use SymfonyUpdater\UpdateLogger;
 
-class SessionLocalePhpCheckerSpec extends ObjectBehavior
+class SessionLocalePhpFixerSpec extends ObjectBehavior
 {
     public function let(UpdateLogger $logger)
     {
         $this->beConstructedWith($logger);
     }
 
-    public function it_is_checker()
+    public function it_is_a_fixer()
     {
-        $this->shouldHaveType('SymfonyUpdater\Checker');
+        $this->shouldHaveType('SymfonyUpdater\Fixer');
     }
 
     public function it_supports_php_file(\SplFileInfo $file)
@@ -35,7 +34,7 @@ class SessionLocalePhpCheckerSpec extends ObjectBehavior
 \$request->getLocale();
 YML;
 
-        $this->check($fileInfo, $content);
+        $this->fix($fileInfo, $content);
     }
 
     public function it_returns_content_with_removed_match(\SplFileInfo $file)
@@ -49,6 +48,6 @@ PHP;
 ;
 PHP;
 
-        $this->check($file, $content)->shouldReturn($expected);
+        $this->fix($file, $content)->shouldReturn($expected);
     }
 }

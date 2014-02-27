@@ -2,12 +2,11 @@
 
 namespace SymfonyUpdater\Checker;
 
-use SymfonyUpdater\Checker;
 use SymfonyUpdater\Fixer;
 use SymfonyUpdater\UpdateLog;
 use SymfonyUpdater\UpdateLogger;
 
-class SessionLocaleTwigChecker implements Checker, Fixer
+class SessionLocaleTwigFixer implements Fixer
 {
     /**
      * @var UpdateLogger
@@ -23,14 +22,11 @@ class SessionLocaleTwigChecker implements Checker, Fixer
     }
 
     /**
-     * @param  \SplFileInfo $file
-     * @param $content
-     * @return string
+     * {@inheritdoc}
      */
-    public function check(\SplFileInfo $file, $content)
+    public function fix(\SplFileInfo $file, $content)
     {
         $pattern = '/{(%|({))[^%]+app\.(request\.)?session\.locale[^%]+(?(2)}|%)}/';
-
         $matches = [];
 
         preg_match_all($pattern, $content, $matches);
@@ -43,8 +39,7 @@ class SessionLocaleTwigChecker implements Checker, Fixer
     }
 
     /**
-     * @param  \SplFileInfo $file
-     * @return bool
+     * {@inheritdoc}
      */
     public function support(\SplFileInfo $file)
     {
@@ -53,10 +48,6 @@ class SessionLocaleTwigChecker implements Checker, Fixer
         }
 
         return false;
-    }
-
-    public function fix(\SplFileInfo $file, $content)
-    {
     }
 
     public function getName()

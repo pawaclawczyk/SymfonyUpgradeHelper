@@ -3,23 +3,48 @@
 namespace spec\SymfonyUpdater\Fixer;
 
 use PhpSpec\ObjectBehavior;
+use Prophecy\Argument;
+use SymfonyUpdater\UpdateLogger;
 
 class DoctrineBundleNamespaceFixerSpec extends ObjectBehavior
 {
-    public function it_is_fixer()
+    public function let(UpdateLogger $logger)
+    {
+        $this->beConstructedWith($logger);
+    }
+
+    public function it_is_a_fixer()
     {
         $this->shouldHaveType('SymfonyUpdater\Fixer');
     }
 
-    public function it_replaces_namespace_in_content(\SplFileInfo $file)
+    public function it_supports_php_file(\SplFileInfo $fileInfo)
     {
-        $input =<<<TEXT
-new Symfony\Bundle\DoctrineBundle\DoctrineBundle();
-TEXT;
-        $outpu =<<<TEXT
-new Doctrine\Bundle\DoctrineBundle\DoctrineBundle();
-TEXT;
+        $fileInfo->getExtension()->willReturn('php');
 
-        $this->fix($file, 'Symfony\Bundle\DoctrineBundle\DoctrineBundle')->shouldReturn('Doctrine\Bundle\DoctrineBundle\DoctrineBundle');
+        $this->support($fileInfo)->shouldReturn(true);
+    }
+
+    public function it_logs_fixing(UpdateLogger $logger, \SplFileInfo $fileInfo)
+    {
+        $logger->log(Argument::type('SymfonyUpdater\UpdateLog'))->shouldBeCalled();
+
+        $content =<<<YML
+new Symfony\Bundle\DoctrineBundle\DoctrineBundle();
+YML;
+
+        $this->fix($fileInfo, $content);
+    }
+
+    public function it_returns_content_with_removed_match(\SplFileInfo $fileInfo)
+    {
+        $content =<<<YML
+new Symfony\Bundle\DoctrineBundle\DoctrineBundle();
+YML;
+        $expected =<<<YML
+new Doctrine\Bundle\DoctrineBundle\DoctrineBundle();
+YML;
+
+        $this->fix($fileInfo, $content)->shouldReturn($expected);
     }
 }
