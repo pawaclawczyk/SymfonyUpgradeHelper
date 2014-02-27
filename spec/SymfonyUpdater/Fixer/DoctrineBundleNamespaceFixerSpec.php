@@ -4,13 +4,13 @@ namespace spec\SymfonyUpdater\Fixer;
 
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
-use SymfonyUpdater\UpdateLogger;
+use SymfonyUpdater\UpdateInfoCollector;
 
 class DoctrineBundleNamespaceFixerSpec extends ObjectBehavior
 {
-    public function let(UpdateLogger $logger)
+    public function let(UpdateInfoCollector $collector)
     {
-        $this->beConstructedWith($logger);
+        $this->beConstructedWith($collector);
     }
 
     public function it_is_a_fixer()
@@ -25,9 +25,9 @@ class DoctrineBundleNamespaceFixerSpec extends ObjectBehavior
         $this->support($fileInfo)->shouldReturn(true);
     }
 
-    public function it_logs_fixing(UpdateLogger $logger, \SplFileInfo $fileInfo)
+    public function it_adds_info_to_collector(UpdateInfoCollector $collector, \SplFileInfo $fileInfo)
     {
-        $logger->log(Argument::type('SymfonyUpdater\UpdateLog'))->shouldBeCalled();
+        $collector->add(Argument::type('SymfonyUpdater\UpdateInfo'))->shouldBeCalled();
 
         $content =<<<YML
 new Symfony\Bundle\DoctrineBundle\DoctrineBundle();

@@ -5,7 +5,7 @@ namespace spec\SymfonyUpdater;
 use PhpSpec\ObjectBehavior;
 use SymfonyUpdater\Fixer;
 
-class UpdateLogSpec extends ObjectBehavior
+class UpdateInfoSpec extends ObjectBehavior
 {
     public function let(Fixer $fixer, \SplFileInfo $fileInfo)
     {

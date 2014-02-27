@@ -4,13 +4,13 @@ namespace spec\SymfonyUpdater\Fixer;
 
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
-use SymfonyUpdater\UpdateLogger;
+use SymfonyUpdater\UpdateInfoCollector;
 
 class SessionConfigurationFixerSpec extends ObjectBehavior
 {
-    public function let(UpdateLogger $logger)
+    public function let(UpdateInfoCollector $collector)
     {
-        $this->beConstructedWith($logger);
+        $this->beConstructedWith($collector);
     }
 
     public function it_is_a_fixer()
@@ -49,9 +49,9 @@ YML;
         $this->fix($fileInfo, $content)->shouldReturn($expected);
     }
 
-    public function it_logs_fixing(UpdateLogger $logger, \SplFileInfo $fileInfo)
+    public function it_adds_info_to_collector(UpdateInfoCollector $collector, \SplFileInfo $fileInfo)
     {
-        $logger->log(Argument::type('SymfonyUpdater\UpdateLog'))->shouldBeCalled();
+        $collector->add(Argument::type('SymfonyUpdater\UpdateInfo'))->shouldBeCalled();
 
         $content =<<<YML
 framework:
@@ -62,9 +62,9 @@ YML;
         $this->fix($fileInfo, $content);
     }
 
-    public function it_does_not_log_fixing(UpdateLogger $logger, \SplFileInfo $fileInfo)
+    public function it_does_not_add_info_to_collector(UpdateInfoCollector $collector, \SplFileInfo $fileInfo)
     {
-        $logger->log(Argument::type('SymfonyUpdater\UpdateLog'))->shouldNotBeCalled();
+        $collector->add(Argument::type('SymfonyUpdater\UpdateInfo'))->shouldNotBeCalled();
 
         $content =<<<YML
 key:

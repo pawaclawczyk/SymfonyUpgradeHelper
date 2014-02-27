@@ -4,23 +4,23 @@ namespace SymfonyUpdater\Fixer;
 
 use SebastianBergmann\Diff\Differ;
 use SymfonyUpdater\Fixer;
-use SymfonyUpdater\UpdateLog;
-use SymfonyUpdater\UpdateLogger;
+use SymfonyUpdater\UpdateInfo;
+use SymfonyUpdater\UpdateInfoCollector;
 
 class SessionLocaleTwigFixer implements Fixer
 {
     private $differ;
     /**
-     * @var UpdateLogger
+     * @var UpdateInfoCollector
      */
-    private $logger;
+    private $collector;
 
     /**
-     * @param UpdateLogger $logger
+     * @param UpdateInfoCollector $collector
      */
-    public function __construct(UpdateLogger $logger)
+    public function __construct(UpdateInfoCollector $collector)
     {
-        $this->logger = $logger;
+        $this->collector = $collector;
         $this->differ = new Differ();
     }
 
@@ -36,7 +36,7 @@ class SessionLocaleTwigFixer implements Fixer
 
         if (md5($content) !== md5($fixedContent)) {
             $diff = $this->differ->diff($content, $fixedContent);
-            $this->logger->log(new UpdateLog($this, $file, UpdateLog::LEVEL_FIXED, $diff));
+            $this->collector->add(new UpdateInfo($this, $file, UpdateInfo::LEVEL_FIXED, $diff));
         }
 
         $matches = [];
@@ -46,7 +46,7 @@ class SessionLocaleTwigFixer implements Fixer
         preg_match_all($matchPattern, $fixedContent, $matches);
 
         foreach ($matches[0] as $match) {
-            $this->logger->log(new UpdateLog($this, $file, UpdateLog::LEVEL_TO_MANUAL_VERIFICATION, $match));
+            $this->collector->add(new UpdateInfo($this, $file, UpdateInfo::LEVEL_TO_MANUAL_VERIFICATION, $match));
         }
 
         return $fixedContent;

@@ -2,23 +2,23 @@
 
 namespace SymfonyUpdater;
 
-class UpdateLogger
+class UpdateInfoCollector
 {
     /**
-     * @var UpdateLog[]
+     * @var UpdateInfo[]
      */
     private $logs = [];
 
     /**
-     * @param UpdateLog $log
+     * @param UpdateInfo $log
      */
-    public function log(UpdateLog $log)
+    public function add(UpdateInfo $log)
     {
         $this->logs[] = $log;
     }
 
     /**
-     * @return UpdateLog[]
+     * @return UpdateInfo[]
      */
     public function getAll()
     {

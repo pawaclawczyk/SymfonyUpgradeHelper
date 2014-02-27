@@ -2,7 +2,7 @@
 
 namespace SymfonyUpdater;
 
-class UpdateLog
+class UpdateInfo
 {
     const LEVEL_FIXED = 0;
 

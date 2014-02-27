@@ -4,13 +4,13 @@ namespace spec\SymfonyUpdater\Fixer;
 
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
-use SymfonyUpdater\UpdateLogger;
+use SymfonyUpdater\UpdateInfoCollector;
 
 class SessionLocalePhpFixerSpec extends ObjectBehavior
 {
-    public function let(UpdateLogger $logger)
+    public function let(UpdateInfoCollector $collector)
     {
-        $this->beConstructedWith($logger);
+        $this->beConstructedWith($collector);
     }
 
     public function it_is_a_fixer()
@@ -25,9 +25,9 @@ class SessionLocalePhpFixerSpec extends ObjectBehavior
         $this->support($file)->shouldReturn(true);
     }
 
-    public function it_logs_fixing(UpdateLogger $logger, \SplFileInfo $fileInfo)
+    public function it_adds_info_to_collector(UpdateInfoCollector $collector, \SplFileInfo $fileInfo)
     {
-        $logger->log(Argument::type('SymfonyUpdater\UpdateLog'))->shouldBeCalledTimes(2);
+        $collector->add(Argument::type('SymfonyUpdater\UpdateInfo'))->shouldBeCalledTimes(2);
 
         $content =<<<YML
 \$session->getLocale();

@@ -3,22 +3,22 @@
 namespace SymfonyUpdater\Fixer;
 
 use SymfonyUpdater\Fixer;
-use SymfonyUpdater\UpdateLog;
-use SymfonyUpdater\UpdateLogger;
+use SymfonyUpdater\UpdateInfo;
+use SymfonyUpdater\UpdateInfoCollector;
 
 class SessionLocalePhpFixer implements Fixer
 {
     /**
-     * @var UpdateLogger
+     * @var UpdateInfoCollector
      */
-    private $logger;
+    private $collector;
 
     /**
-     * @param UpdateLogger $logger
+     * @param UpdateInfoCollector $collector
      */
-    public function __construct(UpdateLogger $logger)
+    public function __construct(UpdateInfoCollector $collector)
     {
-        $this->logger = $logger;
+        $this->collector = $collector;
     }
 
     /**
@@ -44,7 +44,7 @@ class SessionLocalePhpFixer implements Fixer
         preg_match_all($pattern, $content, $matches);
 
         foreach ($matches[0] as $match) {
-            $this->logger->log(new UpdateLog($this, $file, UpdateLog::LEVEL_TO_MANUAL_VERIFICATION, $match));
+            $this->collector->add(new UpdateInfo($this, $file, UpdateInfo::LEVEL_TO_MANUAL_VERIFICATION, $match));
         }
 
        return $content;
