@@ -18,4 +18,5 @@ Feature: Developer runs symfony updater
     }
     """
     When I run symfony-updater "update" command for dir "."
-    Then I should see "Updating..."
+    Then I should see "Update stared."
+    And I should see "Update finished."

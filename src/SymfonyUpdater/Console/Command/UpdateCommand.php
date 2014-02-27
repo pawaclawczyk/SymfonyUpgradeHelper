@@ -34,30 +34,20 @@ class UpdateCommand extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $output->writeln('Updating...');
+        $output->writeln('Update stared.'."\n");
 
         $finder = Finder::create();
         $finder->files()->in($input->getArgument('dir'));
 
-        $this->updater->update($finder);
+        $collector = $this->updater->update($finder);
 
-        foreach ($this->updater->getStats() as $file => $stats) {
-            $output->writeln('File \''.$file.'\'');
+        foreach ($collector->getAll() as $info) {
 
-            if (isset($stats['applied'])) {
-                $output->writeln('Fixers applied:');
-                foreach ($stats['applied'] as $fixer) {
-                    $output->writeln('  - '.$fixer);
-                }
-            }
-
-            if (isset($stats['manual'])) {
-                $output->writeln('Require manual fix:');
-                foreach ($stats['manual'] as $fixer) {
-                    $output->writeln('  - '.$fixer);
-                }
-            }
+            $output->writeln('<info>File: '.$info->file().'</info>');
+            $output->writeln('Fixer: '.$info->fixer().' Level: '.$info->level()."\n");
         }
+
+        $output->writeln('Update finished.');
     }
 
     private function registerBuiltInFixers(Updater $updater)
