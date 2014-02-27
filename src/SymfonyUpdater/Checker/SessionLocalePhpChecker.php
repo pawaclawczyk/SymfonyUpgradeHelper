@@ -3,12 +3,28 @@
 namespace SymfonyUpdater\Checker;
 
 use SymfonyUpdater\Checker;
+use SymfonyUpdater\Fixer;
+use SymfonyUpdater\UpdateLog;
+use SymfonyUpdater\UpdateLogger;
 
-class SessionLocalePhpChecker implements Checker
+class SessionLocalePhpChecker implements Checker, Fixer
 {
     /**
+     * @var UpdateLogger
+     */
+    private $logger;
+
+    /**
+     * @param UpdateLogger $logger
+     */
+    public function __construct(UpdateLogger $logger)
+    {
+        $this->logger = $logger;
+    }
+
+    /**
      * @param  \SplFileInfo $file
-     * @return boolean
+     * @return bool
      */
     public function support(\SplFileInfo $file)
     {
@@ -20,28 +36,30 @@ class SessionLocalePhpChecker implements Checker
     }
 
     /**
-     * @param  \SplFileInfo $file
+     * @param  \SplFileInfo     $file
      * @param $content
-     * @return array|void
+     * @return array|mixed|null
      */
     public function check(\SplFileInfo $file, $content)
     {
         $pattern = '/\$[\w\s>:-]+->getLocale\(\)/';
         $matches = [];
 
-        if (!preg_match_all($pattern, $content, $matches)) {
-            return;
-        }
-
-        $info = [];
+        preg_match_all($pattern, $content, $matches);
 
         foreach ($matches[0] as $match) {
-            $info[] = [
-                $match,
-                self::PROBABLY,
-            ];
+            $this->logger->log(new UpdateLog($this, $file, UpdateLog::LEVEL_TO_MANUAL_VERIFICATION, $match));
         }
 
-        return $info;
+       return preg_replace($pattern, '', $content);
+    }
+
+    public function fix(\SplFileInfo $file, $content)
+    {
+    }
+
+    public function getName()
+    {
+        return 'session_locale_php_fixer';
     }
 }

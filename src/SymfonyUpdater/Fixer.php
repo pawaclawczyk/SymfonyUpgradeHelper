@@ -4,11 +4,15 @@ namespace SymfonyUpdater;
 
 interface Fixer
 {
-    const CERTAINLY = 0;
-
-    const PROBABLY = 1;
-
+    /**
+     * @param  \SplFileInfo $file
+     * @param $content
+     * @return string
+     */
     public function fix(\SplFileInfo $file, $content);
 
+    /**
+     * @return string
+     */
     public function getName();
 }
