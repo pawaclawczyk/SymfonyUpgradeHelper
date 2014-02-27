@@ -30,28 +30,14 @@ class Updater
     public function update(Finder $finder)
     {
         foreach ($finder as $fileInfo) {
-            if (! $fileInfo->isFile() || ! $fileInfo->isReadable()) {
-                continue;
-            };
-
-            $originalContent = $content = $this->filesystem->read($fileInfo->getRealPath());
+            $fixedContent = $content = $this->filesystem->read($fileInfo->getRealPath());
 
             foreach ($this->fixers as $fixer) {
-                $oldContent = $content;
-
-                try {
-                    $content = $fixer->fix($fileInfo, $content);
-                } catch (RequireManualFix $e) {
-                    $this->stats[$fileInfo->getRealPath()]['manual'][] = $fixer->getName();
-                }
-
-                if ($oldContent !== $content) {
-                    $this->stats[$fileInfo->getRealPath()]['applied'][] = $fixer->getName();
-                }
+                $fixedContent = $fixer->fix($fileInfo, $fixedContent);
             }
 
-            if ($originalContent !== $content) {
-                $this->filesystem->write($fileInfo->getRealPath(), $content);
+            if (md5($content) !== md5($fixedContent)) {
+                $this->filesystem->write($fileInfo->getRealPath(), $fixedContent);
             }
         }
     }
