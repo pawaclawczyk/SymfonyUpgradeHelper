@@ -1,6 +1,10 @@
 SymfonyUpgradeHelper
 ====================
 
+[![Scrutinizer Quality Score](https://scrutinizer-ci.com/g/pawaclawczyk/SymfonyUpgradeHelper/badges/quality-score.png?s=ba6cfcd01e6a04d17e14cf00b53d98c41e623cdc)](https://scrutinizer-ci.com/g/pawaclawczyk/SymfonyUpgradeHelper/)
+
+[![Build Status](https://travis-ci.org/pawaclawczyk/SymfonyUpgradeHelper.png?branch=master)](https://travis-ci.org/pawaclawczyk/SymfonyUpgradeHelper)
+
 The main goal of this tool is to help you upgrade your Symfony2 projects and bundles to higher Symfony2 versions.
 
 `SymfonyUpgradeHelper` is a set of Fixers that will fix your code or at least notify you about places where you have to
