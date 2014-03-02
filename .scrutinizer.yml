@@ -1,0 +1,11 @@
+imports:
+    - php
+
+tools:
+  php_code_sniffer:
+    filter:
+      excluded-paths: [ bin/*, features/*, spec/*, vendor/* ]
+
+  php_analyzer:
+    filter:
+      excluded-paths: [ bin/*, features/*, spec/*, vendor/* ]
