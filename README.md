@@ -5,6 +5,8 @@ SymfonyUpgradeHelper
 
 [![Build Status](https://travis-ci.org/pawaclawczyk/SymfonyUpgradeHelper.png?branch=master)](https://travis-ci.org/pawaclawczyk/SymfonyUpgradeHelper)
 
+[![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/pawaclawczyk/symfonyupgradehelper/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
+
 The main goal of this tool is to help you upgrade your Symfony2 projects and bundles to higher Symfony2 versions.
 
 `SymfonyUpgradeHelper` is a set of Fixers that will fix your code or at least notify you about places where you have to
