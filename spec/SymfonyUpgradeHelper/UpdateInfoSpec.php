@@ -1,9 +1,9 @@
 <?php
 
-namespace spec\SymfonyUpdater;
+namespace spec\SymfonyUpgradeHelper;
 
 use PhpSpec\ObjectBehavior;
-use SymfonyUpdater\Fixer;
+use SymfonyUpgradeHelper\Fixer;
 
 class UpdateInfoSpec extends ObjectBehavior
 {

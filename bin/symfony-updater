@@ -8,7 +8,7 @@ if (file_exists($autoload = __DIR__ . '/../vendor/autoload.php')) {
     printf("Please run composer update.");
 }
 
-use SymfonyUpdater\Console\Application;
+use SymfonyUpgradeHelper\Console\Application;
 
 $app = new Application();
 $app->run();

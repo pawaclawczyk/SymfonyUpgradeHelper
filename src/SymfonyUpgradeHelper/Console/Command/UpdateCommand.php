@@ -1,14 +1,14 @@
 <?php
 
-namespace SymfonyUpdater\Console\Command;
+namespace SymfonyUpgradeHelper\Console\Command;
 
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Finder\Finder;
-use SymfonyUpdater\Updater;
-use SymfonyUpdater\Util\Filesystem;
+use SymfonyUpgradeHelper\Updater;
+use SymfonyUpgradeHelper\Util\Filesystem;
 
 class UpdateCommand extends Command
 {
@@ -53,7 +53,7 @@ class UpdateCommand extends Command
     private function registerBuiltInFixers(Updater $updater)
     {
         foreach (Finder::create()->files()->in(__DIR__.'/../../Fixer') as $file) {
-            $class = 'SymfonyUpdater\\Fixer\\'.basename($file, '.php');
+            $class = 'SymfonyUpgradeHelper\\Fixer\\'.basename($file, '.php');
             $updater->addFixer(new $class());
         }
     }

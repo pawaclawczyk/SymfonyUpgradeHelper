@@ -1,9 +1,9 @@
 <?php
 
-namespace SymfonyUpdater\Console;
+namespace SymfonyUpgradeHelper\Console;
 
 use Symfony\Component\Console\Application as BaseApplication;
-use SymfonyUpdater\Console\Command\UpdateCommand;
+use SymfonyUpgradeHelper\Console\Command\UpdateCommand;
 
 class Application extends BaseApplication
 {

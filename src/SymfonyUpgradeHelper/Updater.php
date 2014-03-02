@@ -1,9 +1,9 @@
 <?php
 
-namespace SymfonyUpdater;
+namespace SymfonyUpgradeHelper;
 
 use Symfony\Component\Finder\Finder;
-use SymfonyUpdater\Util\Filesystem;
+use SymfonyUpgradeHelper\Util\Filesystem;
 
 class Updater
 {

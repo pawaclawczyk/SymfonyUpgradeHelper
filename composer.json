@@ -1,6 +1,6 @@
 {
-    "name": "pwc/symfony-updater",
-    "description": "Symfony updater.",
+    "name": "pwc/symfony-upgrade-helper",
+    "description": "This tool will helps you upgrade yur Symfony2 projects.",
     "license": "MIT",
     "authors": [
         {
@@ -20,7 +20,7 @@
     },
     "autoload": {
         "psr-0": {
-            "SymfonyUpdater": "src/"
+            "SymfonyUpgradeHelper": "src/"
         }
     }
 }

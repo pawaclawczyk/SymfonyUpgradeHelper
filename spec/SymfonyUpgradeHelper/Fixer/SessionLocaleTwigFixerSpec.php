@@ -1,10 +1,10 @@
 <?php
 
-namespace spec\SymfonyUpdater\Fixer;
+namespace spec\SymfonyUpgradeHelper\Fixer;
 
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
-use SymfonyUpdater\UpdateInfoCollector;
+use SymfonyUpgradeHelper\UpdateInfoCollector;
 
 class SessionLocaleTwigFixerSpec extends ObjectBehavior
 {
@@ -15,7 +15,7 @@ class SessionLocaleTwigFixerSpec extends ObjectBehavior
 
     public function it_is_a_fixer()
     {
-        $this->shouldHaveType('SymfonyUpdater\Fixer');
+        $this->shouldHaveType('SymfonyUpgradeHelper\Fixer');
     }
 
     public function it_supports_twig_file(\SplFileInfo $file)
@@ -49,7 +49,7 @@ PHP;
 
     public function it_adds_info_to_collector(UpdateInfoCollector $collector, \SplFileInfo $fileInfo)
     {
-        $collector->add(Argument::type('SymfonyUpdater\UpdateInfo'))->shouldBeCalledTimes(3);
+        $collector->add(Argument::type('SymfonyUpgradeHelper\UpdateInfo'))->shouldBeCalledTimes(3);
 
         $content =<<<TWIG
 <div>{% if app.request.session.locale == 'pl' %}</div>

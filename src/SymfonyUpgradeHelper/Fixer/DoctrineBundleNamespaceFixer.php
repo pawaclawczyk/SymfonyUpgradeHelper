@@ -1,11 +1,11 @@
 <?php
 
-namespace SymfonyUpdater\Fixer;
+namespace SymfonyUpgradeHelper\Fixer;
 
 use SebastianBergmann\Diff\Differ;
-use SymfonyUpdater\Fixer;
-use SymfonyUpdater\UpdateInfo;
-use SymfonyUpdater\UpdateInfoCollector;
+use SymfonyUpgradeHelper\Fixer;
+use SymfonyUpgradeHelper\UpdateInfo;
+use SymfonyUpgradeHelper\UpdateInfoCollector;
 
 class DoctrineBundleNamespaceFixer implements Fixer
 {

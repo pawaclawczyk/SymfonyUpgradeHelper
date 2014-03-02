@@ -1,13 +1,13 @@
 <?php
 
-namespace spec\SymfonyUpdater;
+namespace spec\SymfonyUpgradeHelper;
 
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\Finder\Tests\Iterator\Iterator;
-use SymfonyUpdater\Fixer;
-use SymfonyUpdater\Util\Filesystem;
+use SymfonyUpgradeHelper\Fixer;
+use SymfonyUpgradeHelper\Util\Filesystem;
 
 class UpdaterSpec extends ObjectBehavior
 {
@@ -63,10 +63,10 @@ class UpdaterSpec extends ObjectBehavior
 
         $fixer->fix(Argument::cetera())->willreturn();
 
-        $fixer->setCollector(Argument::type('SymfonyUpdater\UpdateInfoCollector'))->shouldBeCalled();
+        $fixer->setCollector(Argument::type('SymfonyUpgradeHelper\UpdateInfoCollector'))->shouldBeCalled();
 
         $this->addFixer($fixer);
 
-        $this->update($finder)->shouldHaveType('SymfonyUpdater\UpdateInfoCollector');
+        $this->update($finder)->shouldHaveType('SymfonyUpgradeHelper\UpdateInfoCollector');
     }
 }

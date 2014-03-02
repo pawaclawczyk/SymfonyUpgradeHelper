@@ -1,10 +1,10 @@
 <?php
 
-namespace spec\SymfonyUpdater\Fixer;
+namespace spec\SymfonyUpgradeHelper\Fixer;
 
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
-use SymfonyUpdater\UpdateInfoCollector;
+use SymfonyUpgradeHelper\UpdateInfoCollector;
 
 class UserEquatableInterfaceFixerSpec extends ObjectBehavior
 {
@@ -15,7 +15,7 @@ class UserEquatableInterfaceFixerSpec extends ObjectBehavior
 
     public function it_is_a_fixer()
     {
-        $this->shouldHaveType('SymfonyUpdater\Fixer');
+        $this->shouldHaveType('SymfonyUpgradeHelper\Fixer');
     }
 
     public function it_supports_php_file(\SplFileInfo $fileInfo)
@@ -79,7 +79,7 @@ class TestUser implements UserInterface
 }
 PHP;
 
-        $collector->add(Argument::type('SymfonyUpdater\UpdateInfo'))->shouldBeCalled();
+        $collector->add(Argument::type('SymfonyUpgradeHelper\UpdateInfo'))->shouldBeCalled();
 
         $this->fix($fileInfo, $content);
     }
@@ -103,7 +103,7 @@ class Test
 }
 PHP;
 
-        $collector->add(Argument::type('SymfonyUpdater\UpdateInfo'))->shouldBeCalledTimes(2);
+        $collector->add(Argument::type('SymfonyUpgradeHelper\UpdateInfo'))->shouldBeCalledTimes(2);
 
         $this->fix($fileInfo, $content)->shouldReturn($content);
     }

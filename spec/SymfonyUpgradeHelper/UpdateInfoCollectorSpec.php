@@ -1,9 +1,9 @@
 <?php
 
-namespace spec\SymfonyUpdater;
+namespace spec\SymfonyUpgradeHelper;
 
 use PhpSpec\ObjectBehavior;
-use SymfonyUpdater\UpdateInfo;
+use SymfonyUpgradeHelper\UpdateInfo;
 
 class UpdateInfoCollectorSpec extends ObjectBehavior
 {

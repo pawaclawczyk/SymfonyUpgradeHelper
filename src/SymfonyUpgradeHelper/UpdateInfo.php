@@ -1,6 +1,6 @@
 <?php
 
-namespace SymfonyUpdater;
+namespace SymfonyUpgradeHelper;
 
 class UpdateInfo
 {

@@ -1,6 +1,6 @@
 <?php
 
-namespace SymfonyUpdater\Util;
+namespace SymfonyUpgradeHelper\Util;
 
 class Filesystem
 {
