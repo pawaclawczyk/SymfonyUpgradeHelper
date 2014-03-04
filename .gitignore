@@ -3,4 +3,5 @@ composer.lock
 
 /.idea/
 /php-cs-fixer.phar
+/composer.phar
 
